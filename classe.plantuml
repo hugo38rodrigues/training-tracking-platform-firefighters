@@ -1,0 +1,103 @@
+@startuml classes
+!pragma layout smetana
+
+enum Rank {
+  SAPEUR
+  SAPEUR_1
+  CAPORAL
+  CAPORAL_CHEF
+  SERGENT
+  SERGENT_CHEF
+  ADJUDANT
+  ADJUDANT_CHEF
+  LIEUTENANT
+  CAPITAINE
+  COMMANDANT
+  LIEUTENANT_COLONEL
+  COLONEL
+  --
+  + estAuMoins(autre : Rank) : boolean
+}
+
+enum License {
+  PERMIS_B
+  PERMIS_C
+}
+
+enum StatusInscription {
+  PENDING
+  IN_PROGRESS
+  DONE
+}
+
+class Agent {
+  - id : Integer
+  - lastName : String
+  - firstName : String
+  - isActive : boolean
+  - isDifferentiated : boolean
+  - rank : Rank
+  - rankStartDate : LocalDate
+  --
+  + archiver() : void
+  + peutSInscrire(t : Training) : boolean
+}
+
+class Training {
+  - id : int
+  - name : String
+  - description : String
+  - startDate : LocalDate
+  - endDate : LocalDate
+  - hasDifferentiation : boolean
+}
+
+class Skill {
+  - id : int
+  - name : String
+  --
+  + equals(o : Object) : boolean
+  + hashCode() : int
+}
+
+class SignInAgentInTraining {
+  - id : int
+  - startInscription : LocalDate
+  - endInscription : LocalDate
+  - statut : StatusInscription
+  - idAgent : Integer
+  - idTraining : Integer
+}
+
+class RankCondition {
+  - rank : Rank
+  - previousRank : Rank
+  - requiredYears : int
+  - requireSkills : Array<Skill>
+}
+
+class RankCalculator {
+  + compileNewRank(agent : Agent, paliers : List<RankCondition>, today : LocalDate) : Rank
+}
+
+' --- Liaisons ---
+
+Agent "1" --> "1" Rank : a >
+Agent "*" --> "0..*" Skill : possède >
+Agent "*" --> "0..*" License : possède >
+
+Training "1" --> "1" Skill : délivre >
+Training "*" --> "0..*" Skill : exige >
+Training "*" --> "0..1" License : exige >
+
+SignInAgentInTraining "*" --> "1" Agent
+SignInAgentInTraining "*" --> "1" Training
+
+RankCondition "1" --> "1" Rank : valide >
+RankCondition "0..1" --> "1" Rank : précédent >
+RankCondition "*" --> "1..*" Skill : requiert >
+
+RankCalculator ..> Agent : utilise
+RankCalculator ..> RankCondition : utilise
+
+@enduml
