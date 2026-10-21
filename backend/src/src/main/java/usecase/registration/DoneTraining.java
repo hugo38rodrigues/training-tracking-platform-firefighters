@@ -58,10 +58,12 @@ public class DoneTraining {
         List<RankCondition> rankCondtions = rankConditionRepo.getRankCondition();
         Agent agent = agentRepo.findAgent(agentId);
         Rank newRank = rankCalculator.compileNewRank(agent, rankCondtions, today );
-        agent.setRank(newRank);
-        agent.setRankStartDate(today);
+        if (newRank != agent.getRank()){
+            agent.setRank(newRank);
+            agent.setRankStartDate(today);
+            agentRepo.update(agent);
+        }
 
-        agentRepo.update(agent);
     }
     
 }
