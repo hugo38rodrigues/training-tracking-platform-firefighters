@@ -135,7 +135,7 @@ public class DatabaseInitialisation {
         String sql = """
             CREATE TABLE IF NOT EXISTS Ranking_condition (
                 id             INTEGER PRIMARY KEY AUTOINCREMENT,
-                rank           TEXT    NOT NULL,
+                rank           TEXT    NOT NULL UNIQUE,
                 previous_rank  TEXT,
                 required_years INTEGER NOT NULL DEFAULT 0
             )
