@@ -131,19 +131,19 @@ public class DatabaseInitialisation {
         }
     }
 
-    public static void createRankingCondition(Connection conn) throws SQLException {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS Ranking_condition (
-                id             INTEGER PRIMARY KEY AUTOINCREMENT,
-                rank           TEXT    NOT NULL UNIQUE,
-                previous_rank  TEXT,
-                required_years INTEGER NOT NULL DEFAULT 0
-            )
-            """;
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+        public static void createRankingCondition(Connection conn) throws SQLException {
+            String sql = """
+                CREATE TABLE IF NOT EXISTS Ranking_condition (
+                    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+                    rank           TEXT    NOT NULL UNIQUE,
+                    previous_rank  TEXT,
+                    required_years INTEGER NOT NULL DEFAULT 0
+                )
+                """;
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute(sql);
+            }
         }
-    }
 
     public static void createRankingConditionSkill(Connection conn) throws SQLException {
         String sql = """
@@ -178,63 +178,83 @@ public class DatabaseInitialisation {
     }
 
     public static void insertDefaultRankConditions(Connection conn) throws SQLException {
-        // chaque règle : rank, previousRank, years, puis les compétences requises
-        insertOneRankCondition(conn, "SAPEUR_PREMIERE_CLASSE", "SAPEUR_DEUXIEME_CLASSE", 1,
-                                new String[]{"EQ DIV HYM", "EQ INC", "EQ SSUAP"});
-        insertOneRankCondition(conn, "CAPORAL", "SAPEUR_PREMIERE_CLASSE", 3,
-                                new String[]{"CE INC"});
-        insertOneRankCondition(conn, "SERGENT", "CAPORAL", 3,
-                                new String[]{"CATE SSUAP", "CATE TRANS", "CATE VTU"});
-    }
-
-    private static void insertOneRankCondition(Connection conn, String rank, String previousRank,
-                                            int years, String[] skillNames) throws SQLException {
-        // 1. insérer la règle, récupérer son id
-        int conditionId;
-        String sql = "INSERT INTO Ranking_condition (rank, previous_rank, required_years) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, rank);
-            pstmt.setString(2, previousRank);
-            pstmt.setInt(3, years);
-            pstmt.executeUpdate();
-            try (ResultSet keys = pstmt.getGeneratedKeys()) {
-                keys.next();
-                conditionId = keys.getInt(1);
-            }
+        if (!isEmpty(conn, "Ranking_condition")) {
+            return; // déjà fait lors d'un lancement précédent
         }
 
-        // 2. pour chaque compétence, trouver son id et insérer le lien
-        String linkSql = """
-            INSERT INTO Ranking_condition_skill (rank_condition_id, skill_id)
-            VALUES (?, (SELECT id FROM Skill WHERE name = ?))
-            """;
-        try (PreparedStatement pstmt = conn.prepareStatement(linkSql)) {
-            for (String skillName : skillNames) {
-                pstmt.setInt(1, conditionId);
-                pstmt.setString(2, skillName);
-                pstmt.addBatch();
-            }
-            pstmt.executeBatch();
+        boolean previousAutoCommit = conn.getAutoCommit();
+        conn.setAutoCommit(false);
+        try {
+            insertOneRankCondition(conn, "SAPEUR_PREMIERE_CLASSE", "SAPEUR_DEUXIEME_CLASSE", 1,
+                    new String[] { "EQ DIV HYM", "EQ INC", "EQ SSUAP" });
+            insertOneRankCondition(conn, "CAPORAL", "SAPEUR_PREMIERE_CLASSE", 3,
+                    new String[] { "CE INC" });
+            insertOneRankCondition(conn, "SERGENT", "CAPORAL", 3,
+                    new String[] { "CATE SSUAP", "CATE TRANS", "CATE VTU" });
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(previousAutoCommit);
         }
     }
 
-
-
-    public static void initialisation(Connection conn) throws SQLException{
-        createAgent(conn);
-        createSkill(conn);
-        createTraining(conn);
-        createRankingCondition(conn);
-        createTrainingNeededSkills(conn);
-        createAgentLicense(conn);
-        createTrainingSkillDelivered(conn);
-        createAgentSkill(conn);
-        createRankingConditionSkill(conn);
-        createRegistrationAgentInTraining(conn);
-        insertDefaultSkills(conn);
-        insertDefaultRankConditions(conn);
-
+    private static boolean isEmpty(Connection conn, String table) throws SQLException {
+        try (Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM " + table)) {
+            return rs.getInt(1) == 0;
+        }
     }
+
+        private static void insertOneRankCondition(Connection conn, String rank, String previousRank,
+                                                int years, String[] skillNames) throws SQLException {
+            // 1. insérer la règle, récupérer son id
+            int conditionId;
+            String sql = "INSERT INTO Ranking_condition (rank, previous_rank, required_years) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setString(1, rank);
+                pstmt.setString(2, previousRank);
+                pstmt.setInt(3, years);
+                pstmt.executeUpdate();
+                try (ResultSet keys = pstmt.getGeneratedKeys()) {
+                    keys.next();
+                    conditionId = keys.getInt(1);
+                }
+            }
+
+            // 2. pour chaque compétence, trouver son id et insérer le lien
+            String linkSql = """
+                INSERT INTO Ranking_condition_skill (rank_condition_id, skill_id)
+                VALUES (?, (SELECT id FROM Skill WHERE name = ?))
+                """;
+            try (PreparedStatement pstmt = conn.prepareStatement(linkSql)) {
+                for (String skillName : skillNames) {
+                    pstmt.setInt(1, conditionId);
+                    pstmt.setString(2, skillName);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+        }
+
+
+
+        public static void initialisation(Connection conn) throws SQLException{
+            createAgent(conn);
+            createSkill(conn);
+            createTraining(conn);
+            createRankingCondition(conn);
+            createTrainingNeededSkills(conn);
+            createAgentLicense(conn);
+            createTrainingSkillDelivered(conn);
+            createAgentSkill(conn);
+            createRankingConditionSkill(conn);
+            createRegistrationAgentInTraining(conn);
+            insertDefaultSkills(conn);
+            insertDefaultRankConditions(conn);
+
+        }
 
     
 }
