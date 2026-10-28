@@ -11,6 +11,7 @@ ui/DisplayNames.class
 domaine/repository/AgentRepository.class
 usecase/registration/FailedTraining.class
 domaine/entity/Skill.class
+usecase/DTO/DashBoardRegistration.class
 usecase/exceptions/InvalidRegistrationException.class
 infrastructure/AgentRepositorySql.class
 ui/App.class
@@ -20,6 +21,7 @@ usecase/exceptions/InvalideAgentsException.class
 domaine/entity/RankCondition.class
 domaine/entity/RegistrationAgentInTraining.class
 domaine/entity/Agent.class
+ui/components/AddAgentDialog.class
 usecase/exceptions/RegistrationRefuseException.class
 usecase/exceptions/InvalidTrainingNumberExecption.class
 infrastructure/SkillRepositorySql.class
@@ -27,6 +29,7 @@ ui/DisplayNames$1.class
 infrastructure/DatabaseInitialisation.class
 usecase/GetAllAgent.class
 ui/Launcher.class
+usecase/GetSkills.class
 ui/AppContext.class
 ui/components/NavButton.class
 ui/components/AgentCard.class
@@ -37,8 +40,11 @@ infrastructure/RegistrationAgentInTrainingRepositorySql.class
 domaine/repository/SkillRepository.class
 usecase/registration/DoneTraining.class
 usecase/exceptions/InvalidMatriculesException.class
+ui/components/AgentCard$1.class
+ui/components/IconSvg.class
 domaine/repository/RegistrationAgentInTrainingRepository.class
 domaine/entity/License.class
 ui/components/Content.class
 domaine/entity/RegistrationStatus.class
+ui/components/AddAgentDialog$1.class
 domaine/repository/TrainingRepository.class

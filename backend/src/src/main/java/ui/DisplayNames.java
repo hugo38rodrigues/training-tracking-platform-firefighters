@@ -5,6 +5,7 @@ import java.time.Period;
 
 import domaine.entity.License;
 import domaine.entity.Rank;
+import domaine.entity.RegistrationStatus;
 
 public final class DisplayNames {
 
@@ -25,10 +26,21 @@ public final class DisplayNames {
             case COMMANDANT -> "Commandant";
             case LIEUTENANT_COLONEL -> "Lieutenant-colonel";
             case COLONEL -> "Colonel";
-            default -> throw new IllegalArgumentException("Unexpected value: " + rank);
+            case CONTROLEUR_GENERAL -> "Controleur Général";
         };
     }
+    
+    public static String registrationStatus(RegistrationStatus status){
+        return switch(status){
+            case PENDING -> "En attente";
+            case IN_PROGRESS -> "En cours";
+            case CANCEL -> "Annulée";
+            case FAILED -> "Échoué";
+            case DONE -> "Validé";
 
+        };
+    }
+    
     public static String license(License license) {
         return switch (license) {
             case PERMIS_B -> "Permis B";

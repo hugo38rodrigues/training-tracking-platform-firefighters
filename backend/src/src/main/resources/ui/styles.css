@@ -135,13 +135,10 @@
     -fx-text-fill: #1B1F24;
 }
 
-.rank-icon {
-    -fx-fill: transparent;
-    -fx-stroke: #B3261E;
-    -fx-stroke-width: 2.4;
-    -fx-stroke-line-cap: round;
-    -fx-stroke-line-join: round;
-}
+.insignia-patch  { -fx-fill: #1B2433; }
+.insignia-red    { -fx-fill: #E53935; }
+.insignia-silver { -fx-fill: #DCE0E6; }
+.insignia-gold   { -fx-fill: #E3A92B; }
 
 /* ---------- Sections et pastilles ---------- */
 .section-title {
@@ -174,4 +171,123 @@
     -fx-font-family: "Barlow SemiBold";
     -fx-font-size: 13px;
     -fx-text-fill: #3A404A;
+}
+
+/* ---------- Inscriptions ---------- */
+.registration-row {
+    -fx-border-color: #E2DED6;
+    -fx-border-radius: 10;
+    -fx-padding: 10 12 10 12;
+}
+
+.registration-name {
+    -fx-font-family: "Barlow SemiBold";
+    -fx-font-size: 14px;
+    -fx-text-fill: #1B1F24;
+}
+
+.registration-empty {
+    -fx-border-color: #CFCAC0;
+    -fx-border-style: dashed;
+    -fx-border-radius: 10;
+    -fx-padding: 10 12 10 12;
+    -fx-text-fill: #5B6270;
+}
+
+.registration-more {
+    -fx-background-color: transparent;
+    -fx-border-color: #CFCAC0;
+    -fx-border-style: dashed;
+    -fx-border-radius: 10;
+    -fx-min-height: 44;
+    -fx-font-family: "Barlow SemiBold";
+    -fx-text-fill: #3A404A;
+    -fx-cursor: hand;
+}
+
+.badge-pending     { -fx-background-color: #FDF0DC; -fx-text-fill: #8A4B08; }
+.badge-in_progress { -fx-background-color: #E3ECFB; -fx-text-fill: #1D4E9E; }
+.badge-done        { -fx-background-color: #E3F1EA; -fx-text-fill: #1E6B45; }
+.badge-cancel      { -fx-background-color: #ECEBE8; -fx-text-fill: #4A4F57; }
+.badge-failed      { -fx-background-color: #FBE4E2; -fx-text-fill: #9B2219; }
+
+.icon-button {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #CFCAC0;
+    -fx-border-radius: 8;
+    -fx-min-width: 44;  -fx-max-width: 44;
+    -fx-min-height: 44; -fx-max-height: 44;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+/* ---------- Boutons du bas de la carte ---------- */
+.view-profile-button,
+.sign-in-button {
+    -fx-min-height: 44;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-font-family: "Barlow SemiBold";
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.view-profile-button {
+    -fx-background-color: white;
+    -fx-border-color: #1B2433;
+    -fx-text-fill: #1B2433;
+}
+
+.view-profile-button:hover {
+    -fx-background-color: #EEF0F3;
+}
+
+.sign-in-button {
+    -fx-background-color: #1B2433;
+    -fx-text-fill: white;
+}
+
+.sign-in-button:hover {
+    -fx-background-color: #2A3548;
+}
+
+/* Contour visible quand on navigue au clavier (touche Tab) */
+.view-profile-button:focused,
+.sign-in-button:focused {
+    -fx-border-color: #B3261E;
+    -fx-border-width: 2;
+}
+
+.archive-icon {
+    -fx-fill: transparent;
+    -fx-stroke: #3A404A;
+    -fx-stroke-width: 1.5;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+.icon-button:hover .archive-icon {
+    -fx-stroke: #B3261E;
+}
+
+.btn-add-icon {
+    -fx-fill: transparent;
+    -fx-stroke: white;
+    -fx-stroke-width: 1.8;
+    -fx-stroke-line-cap: round;
+}
+
+/* ---------- Formulaires ---------- */
+.form-dialog {
+    -fx-background-color: white;
+    -fx-padding: 8;
+}
+
+.form-dialog .label {
+    -fx-text-fill: #3A404A;
+}
+
+.form-error {
+    -fx-text-fill: #9B2219;
+    -fx-font-family: "Barlow SemiBold";
 }
