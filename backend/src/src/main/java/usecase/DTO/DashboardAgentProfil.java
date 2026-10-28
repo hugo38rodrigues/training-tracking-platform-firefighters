@@ -5,8 +5,8 @@ import java.util.List;
 import domaine.entity.Agent;
 import domaine.entity.License;
 import domaine.entity.Rank;
-import domaine.entity.RegistrationAgentInTraining;
 import domaine.entity.Skill;
+
 
 public record DashboardAgentProfil (
     Integer id,
@@ -19,10 +19,10 @@ public record DashboardAgentProfil (
     List<String> skills,
     boolean isActive,
     boolean isDifferentiated,
-    List<RegistrationAgentInTraining> registration
+    List<DashBoardRegistration> registration
 ){
 
-        public static DashboardAgentProfil from (Agent agent, List<RegistrationAgentInTraining> registration){
+        public static DashboardAgentProfil from (Agent agent,List<DashBoardRegistration> registration ){
             List<String> skillsName = agent.getSkills().stream().map(Skill::getName).toList();
             return new DashboardAgentProfil(
                 agent.getId(), 
@@ -36,6 +36,8 @@ public record DashboardAgentProfil (
                 agent.isActive(),
                 agent.isDifferentiated(),
                 registration
+
+
             );
         }
     }

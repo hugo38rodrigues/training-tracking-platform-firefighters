@@ -4,16 +4,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import data.AgentData;
 import data.RegistrationTrainingData;
+import data.TrainingData;
 import domaine.entity.Agent;
 import domaine.entity.RegistrationAgentInTraining;
 import domaine.entity.RegistrationStatus;
+import domaine.entity.Training;
+import usecase.data.TrainingDataUsecase;
+import usecase.mock.FakeTrainingRepository;
 
 class DashboardAgentProfilTest {
+    FakeTrainingRepository fakeTrainingRepository;
+    
+    @BeforeEach 
+    void setUp(){
+        fakeTrainingRepository = new FakeTrainingRepository();
+
+    }
 
     @Test
     @DisplayName("Les compétences de l'agent sont converties en liste de noms")
@@ -46,10 +58,14 @@ class DashboardAgentProfilTest {
     void les_inscriptions_sont_ajoutees() {
 
         RegistrationAgentInTraining registration = RegistrationTrainingData.registration(RegistrationStatus.PENDING);
-        List<RegistrationAgentInTraining> registrations = List.of(registration);
+        
+        Training training = TrainingData.trainingCE();
+        TrainingDataUsecase.insertTrainingInRepo(training, 1, fakeTrainingRepository);
+        DashBoardRegistration registrationsDashboard = DashBoardRegistration.from(registration, training);
 
-        DashboardAgentProfil result = DashboardAgentProfil.from(AgentData.newAgent(), registrations);
-
-        assertEquals(registrations, result.registration());
+        DashboardAgentProfil result = DashboardAgentProfil.from(AgentData.newAgent(), List.of(registrationsDashboard));
+        for (DashBoardRegistration reg : result.registration()){
+            assertEquals(registrationsDashboard.name(), reg.name());
+        }
     }
 }
