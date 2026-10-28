@@ -8,6 +8,7 @@ import domaine.entity.Training;
 import domaine.repository.AgentRepository;
 import domaine.repository.RegistrationAgentInTrainingRepository;
 import domaine.repository.TrainingRepository;
+import usecase.DTO.DashBoardRegistration;
 import usecase.DTO.DashboardAgentProfil;
 import usecase.exceptions.InvalideAgentsException;
 
@@ -36,11 +37,14 @@ public class GetAllAgent {
         
         for (Agent agent : agents){
             List<RegistrationAgentInTraining> registrations = registrationRepo.findByAgent(agent.getId());
+            List<DashBoardRegistration> registrationsDashBoard = new ArrayList<>();
             for (RegistrationAgentInTraining registration : registrations){
                 Training training = trainingRepo.findTrainingById(registration.getIdTraining());
                 registration.setStatut(registration.computeStatus(today, training));
+                registrationsDashBoard.add(DashBoardRegistration.from(registration, training));
+
             }
-            agentProfils.add(DashboardAgentProfil.from(agent, registrations));
+            agentProfils.add(DashboardAgentProfil.from(agent, registrationsDashBoard));
         }
         
         return agentProfils;
