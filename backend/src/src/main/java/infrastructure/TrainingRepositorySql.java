@@ -14,13 +14,24 @@ import domaine.repository.TrainingRepository;
 
 public class TrainingRepositorySql implements TrainingRepository{
     
-    private final Connection conn;      
+    private final Connection conn;    
+    
+    String SQL_DELIVERED_SKILLS = """
+            SELECT Skill.id, Skill.name
+            FROM Training_skills_delivered
+            INNER JOIN Skill ON Training_skills_delivered.skill_id = Skill.id
+            WHERE Training_skills_delivered.training_id = ?""";
+    String SQL_NEEDED_SKILLS = """
+            SELECT Skill.id, Skill.name
+            FROM Training_skills_needed
+            JOIN Skill ON Training_skills_needed.skill_id = Skill.id
+            WHERE Training_skills_needed.training_id = ?""";
 
     public TrainingRepositorySql(Connection conn) {   
         this.conn = conn;
     }
+
     @Override
-    
     public void addTraining(Training training) {
         String sql ="""
                 INSERT INTO Training (name, formation_number, start_date, end_date, has_differentiation)
@@ -64,20 +75,38 @@ public class TrainingRepositorySql implements TrainingRepository{
             throw new RuntimeException("Erreur récupération de la formation: " + formationNumber, e);
         }
     }
+
+    @Override
+    public List<Training> findTrainings() {
+        String sql = "Select * from Training";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            List<Training> trainings = new ArrayList<>();
+            while (rs.next()) {
+                Training training = new Training(
+                    rs.getString("name"),
+                    rs.getInt("formation_number"),
+                    LocalDate.parse(rs.getString("start_date")),
+                    LocalDate.parse(rs.getString("end_date")),
+                    new ArrayList<Skill>(),
+                    new ArrayList<Skill>(),
+                    rs.getBoolean("has_differentiation")
+                );
+                training.setId(rs.getInt("id"));
+                training.setSkillsNeeded(findSkills(training.getId(), SQL_NEEDED_SKILLS));
+                training.setSkillDelivered(findSkills(training.getId(), SQL_DELIVERED_SKILLS));
+                trainings.add(training);
+            }
+            return trainings;
+        }
+
+        catch (SQLException e) {
+            throw new RuntimeException("Erreur récupération des formations: ", e);
+        }
+    }
     
     @Override
     public Training findTrainingById(int id) {
         String sql = "SELECT * FROM Training WHERE id = ?";
-        String sqlDelivredSkills="""
-                SELECT Skill.id, Skill.name
-                FROM Training_skills_delivered
-                INNER JOIN Skill ON Training_skills_delivered.skill_id = Skill.id
-                WHERE Training_skills_delivered.training_id = ?""";
-        String sqlNeededSkills="""
-                SELECT Skill.id, Skill.name
-                FROM Training_skills_needed
-                JOIN Skill ON Training_skills_needed.skill_id = Skill.id
-                WHERE Training_skills_needed.training_id = ?""";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -96,8 +125,8 @@ public class TrainingRepositorySql implements TrainingRepository{
                 );
                 
                 training.setId(trainingId);
-                training.setSkillsNeeded(findSkills(trainingId, sqlNeededSkills));
-                training.setSkillDelivered(findSkills(trainingId, sqlDelivredSkills));
+                training.setSkillsNeeded(findSkills(trainingId, SQL_NEEDED_SKILLS));
+                training.setSkillDelivered(findSkills(trainingId, SQL_DELIVERED_SKILLS));
                 return training;
             }
             return null;
