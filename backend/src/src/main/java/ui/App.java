@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ui.components.Content;
 import ui.components.Sidebard;
+import ui.view.Content;
 
 public class App extends Application {
 
@@ -50,7 +50,7 @@ public class App extends Application {
         loadFonts();
         BorderPane root = new BorderPane();
         root.setLeft(Sidebard.create()); // zone gauche : le menu
-        root.setCenter(Content.create(context)); // zone centrale : la page
+        root.setCenter(new Content(context)); // zone centrale : la page
 
         Scene scene = new Scene(root, 1280, 800);
         scene.getStylesheets().add(getClass().getResource("/ui/styles.css").toExternalForm());

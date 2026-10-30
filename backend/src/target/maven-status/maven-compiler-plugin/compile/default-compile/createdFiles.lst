@@ -21,7 +21,6 @@ usecase/exceptions/InvalideAgentsException.class
 domaine/entity/RankCondition.class
 domaine/entity/RegistrationAgentInTraining.class
 domaine/entity/Agent.class
-ui/components/AddAgentDialog.class
 usecase/exceptions/RegistrationRefuseException.class
 usecase/exceptions/InvalidTrainingNumberExecption.class
 infrastructure/SkillRepositorySql.class
@@ -44,7 +43,5 @@ ui/components/AgentCard$1.class
 ui/components/IconSvg.class
 domaine/repository/RegistrationAgentInTrainingRepository.class
 domaine/entity/License.class
-ui/components/Content.class
 domaine/entity/RegistrationStatus.class
-ui/components/AddAgentDialog$1.class
 domaine/repository/TrainingRepository.class

@@ -3,6 +3,7 @@ package ui.components;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import domaine.entity.Rank;
 import domaine.entity.RegistrationStatus;
@@ -52,7 +53,7 @@ public class AgentCard extends VBox {
             + "M16.5 8.2 L17.35 10.83 L20.11 10.83 L17.88 12.45 L18.73 15.07 L16.5 13.45 L14.27 15.07 "
             + "L15.12 12.45 L12.89 10.83 L15.65 10.83 Z";
             
-    public AgentCard(DashboardAgentProfil profil) {
+    public AgentCard(DashboardAgentProfil profil,  Consumer<DashboardAgentProfil> onRegister) {
         super(16);
         getStyleClass().add("agent-card");
         
@@ -66,7 +67,7 @@ public class AgentCard extends VBox {
         createSection("Permis", createLicenseChips(profil)),
         createSection("Compétences · " + profil.skills().size(), createSkillChips(profil)),
         createSection("Inscriptions", createRegistrationBlock(profil)),
-        createActionBlock(profil)
+        createActionBlock(profil, onRegister)
     );
         
     }
@@ -108,7 +109,7 @@ public class AgentCard extends VBox {
     }
     
     // ---------- Bloc profil inscription ----------
-    private HBox createActionBlock(DashboardAgentProfil profil){
+    private HBox createActionBlock(DashboardAgentProfil profil, Consumer<DashboardAgentProfil> onRegister){
         Button viewProfileBtn = createTextBtn("Voir le profil","view-profile-button");
         Button signInBtn = createTextBtn("Inscrire", "sign-in-button");
         Button archiveBtn = createIconBtn(ARCHIVE_ICON, "archive-icon", "Archiver l'agent");
@@ -123,6 +124,8 @@ public class AgentCard extends VBox {
         if (profil.isActive()) {
             actions.getChildren().add(archiveBtn);
         }
+        signInBtn.setOnAction(event -> onRegister.accept(profil));
+        signInBtn.setDisable(!profil.isActive());
         return actions;
     }
     

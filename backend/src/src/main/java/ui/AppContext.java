@@ -18,6 +18,7 @@ import infrastructure.SkillRepositorySql;
 import infrastructure.TrainingRepositorySql;
 import usecase.AddAgent;
 import usecase.GetAllAgent;
+import usecase.GetAvailableTrainings;
 import usecase.GetSkills;
 import usecase.registration.SetRegistrationAgentTraining;
 import usecase.registration.CancelTraining;
@@ -34,6 +35,7 @@ public class AppContext implements AutoCloseable {
     public final CancelTraining cancelTraining;
     public final DoneTraining doneTraining;
     public final GetSkills getSkills;
+    public final GetAvailableTrainings getAvailableTrainings;
 
     public AppContext(String databasePath) throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
@@ -56,6 +58,7 @@ public class AppContext implements AutoCloseable {
         cancelTraining = new CancelTraining(registrationRepo);
         getSkills = new GetSkills(skillRepo);
         doneTraining = new DoneTraining(registrationRepo, agentRepo, rankConditionRepo, new RankCalculator());
+        getAvailableTrainings = new GetAvailableTrainings(agentRepo, trainingRepo, registrationRepo);
     }
 
     @Override

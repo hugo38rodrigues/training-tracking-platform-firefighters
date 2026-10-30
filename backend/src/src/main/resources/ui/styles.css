@@ -291,3 +291,46 @@
     -fx-text-fill: #9B2219;
     -fx-font-family: "Barlow SemiBold";
 }
+
+/* ---------- Zone de défilement des cartes ---------- */
+.cards-scroll,
+.cards-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.cards-scroll {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.cards-scroll:focused {
+    -fx-background-insets: 0;
+}
+
+/* ---------- Liste des formations ---------- */
+.training-list {
+    -fx-pref-height: 240;
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #E2DED6;
+    -fx-border-radius: 10;
+    -fx-padding: 4;
+}
+
+.training-list .list-cell {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 12 10 12;
+}
+
+.training-list .list-cell:hover {
+    -fx-background-color: #F7F5F1;
+}
+
+.training-list .list-cell:selected {
+    -fx-background-color: #E3ECFB;
+}
+
+.training-list .list-cell:empty {
+    -fx-background-color: transparent;
+}

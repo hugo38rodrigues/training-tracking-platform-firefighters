@@ -1,4 +1,4 @@
-package ui.components;
+package ui.components.dialog;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -114,7 +114,6 @@ public class AddAgentDialog extends Dialog<ButtonType> {
                 selectedSkills.add(skill);
         });
 
-        // À VÉRIFIER : l'ordre prénom / nom de ton constructeur Agent
         return new Agent(
                 firstName.getText().trim(),
                 lastName.getText().trim(),

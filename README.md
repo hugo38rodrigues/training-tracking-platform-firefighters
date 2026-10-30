@@ -139,4 +139,11 @@ mvn test -Dtest=DoneTrainingTest
 - **Use case tests** run against **in-memory fake repositories** (`usecase/mock`), which store data in a `HashMap`. They test business logic only, with no database.
 - **Infrastructure tests** check that the SQL implementations actually read and write the database correctly.
 - **Test data** is built by the classes in `data/`. Each method returns **brand new objects** on every call, so that a test can never alter the data used by another one.
-- Status rules are covered with **parameterized tests** (`@ParameterizedTest` + `@EnumSource`), so every status is checked with the same scenario.
+- Status rules are covered with **parameterized tests** (`@ParameterizedTest` + `@EnumSource`), so every status is checked with the same scenario
+
+### DEV 
+```bash
+start-desktop
+export DISPLAY=:1
+mvn javafx:run
+```
