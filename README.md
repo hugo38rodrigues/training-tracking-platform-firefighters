@@ -142,8 +142,5 @@ mvn test -Dtest=DoneTrainingTest
 - Status rules are covered with **parameterized tests** (`@ParameterizedTest` + `@EnumSource`), so every status is checked with the same scenario
 
 ### DEV 
-```bash
-start-desktop
-export DISPLAY=:1
-mvn javafx:run
+
 ```
