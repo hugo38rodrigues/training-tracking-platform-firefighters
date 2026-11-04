@@ -20,8 +20,8 @@ public class AddTraining {
 
     public void execute(Training training) {
 
-        if (trainingRepo.findTrainingByFormationNumber(training.getFormationNumber())) {
-            throw new InvalidTrainingNumberExecption("Cette formation existe déjà: " + training.getFormationNumber());
+        if (trainingRepo.existsByTrainingNumber(training.getTrainingNumber())) {
+            throw new InvalidTrainingNumberExecption("Cette formation existe déjà: " + training.getTrainingNumber());
         }
 
         List<Skill> skillNeededComplete = new ArrayList<>();

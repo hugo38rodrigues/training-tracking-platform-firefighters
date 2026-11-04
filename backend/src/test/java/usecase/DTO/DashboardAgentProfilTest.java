@@ -60,7 +60,7 @@ class DashboardAgentProfilTest {
         RegistrationAgentInTraining registration = RegistrationTrainingData.registration(RegistrationStatus.PENDING);
         
         Training training = TrainingData.trainingCE();
-        TrainingDataUsecase.insertTrainingInRepo(training, 1, fakeTrainingRepository);
+        TrainingDataUsecase.insertTrainingInRepo(training, fakeTrainingRepository);
         DashBoardRegistration registrationsDashboard = DashBoardRegistration.from(registration, training);
 
         DashboardAgentProfil result = DashboardAgentProfil.from(AgentData.newAgent(), List.of(registrationsDashboard));

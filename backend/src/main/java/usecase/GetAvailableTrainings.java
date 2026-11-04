@@ -25,9 +25,9 @@ public class GetAvailableTrainings {
 
 
 
-    public List<TrainingOption> execute(int agentId) {
+    public List<TrainingOption> execute(int matricule) {
 
-        Agent agent = agentRepo.findAgent(agentId);
+        Agent agent = agentRepo.findByMatricule(matricule);
 
         if (agent == null) {
             throw new InvalideAgentsException("Agent introuvable");
@@ -41,7 +41,7 @@ public class GetAvailableTrainings {
                 .map(TrainingOption::from)
                 .toList();
 
-        return trainings.stream().filter(training -> registrationAgentInTrainingRepo.findByAgent(agentId).isEmpty()).toList();
+        return trainings.stream().filter(training -> registrationAgentInTrainingRepo.findByAgent(matricule).isEmpty()).toList();
 
     }
 }

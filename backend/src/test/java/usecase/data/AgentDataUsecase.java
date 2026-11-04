@@ -4,9 +4,7 @@ import domaine.entity.Agent;
 import usecase.mock.FakeAgentRepository;
 
 public class AgentDataUsecase {
-    public static int insertAgentInRepo (Agent agent, int id, FakeAgentRepository fakeAgentRepo){
-        agent.setId(id);
+    public static void insertAgentInRepo (Agent agent, FakeAgentRepository fakeAgentRepo){
         fakeAgentRepo.add(agent);
-        return agent.getId();
     }
 }

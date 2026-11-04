@@ -9,7 +9,6 @@ import domaine.entity.Skill;
 
 
 public record DashboardAgentProfil (
-    Integer id,
     String lastName,
     String firstName,
     int matricule,
@@ -24,8 +23,7 @@ public record DashboardAgentProfil (
 
         public static DashboardAgentProfil from (Agent agent,List<DashBoardRegistration> registration ){
             List<String> skillsName = agent.getSkills().stream().map(Skill::getName).toList();
-            return new DashboardAgentProfil(
-                agent.getId(), 
+            return new DashboardAgentProfil( 
                 agent.getLastName(), 
                 agent.getFirstName(), 
                 agent.getMatricule(), 

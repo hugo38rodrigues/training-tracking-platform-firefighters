@@ -8,16 +8,16 @@ public class RegistrationAgentInTraining {
     private LocalDate startRegistration ;
     private LocalDate endRegistration;
     private RegistrationStatus statut; 
-    private int idAgent;
+    private int matricule;
     private int idTraining;
 
 
     public RegistrationAgentInTraining(LocalDate startRegistration, LocalDate endRegistration, RegistrationStatus status,
-            int idAgent, int idTraining) {
+            int matricule, int idTraining) {
         this.startRegistration = startRegistration;
         this.endRegistration = endRegistration;
         this.statut = status;
-        this.idAgent = idAgent;
+        this.matricule = matricule;
         this.idTraining = idTraining;
     }
 
@@ -72,12 +72,12 @@ public class RegistrationAgentInTraining {
         this.statut = statut;
     }
 
-    public int getIdAgent() {
-        return idAgent;
+    public int getAgentMatricule() {
+        return matricule;
     }
 
-    public void setIdAgent(int idAgent) {
-        this.idAgent = idAgent;
+    public void setIdAgent(int matricule) {
+        this.matricule = matricule;
     }
 
     public int getIdTraining() {
@@ -91,7 +91,7 @@ public class RegistrationAgentInTraining {
     @Override
     public String toString() {
         return "RegistrationAgentInTraining [id=" + id + ", startInscription=" + startRegistration + ", endInscription="
-                + endRegistration + ", statut=" + statut + ", idAgent=" + idAgent + ", idTraining=" + idTraining + "]";
+                + endRegistration + ", statut=" + statut + ", matricule=" + matricule + ", idTraining=" + idTraining + "]";
     }
 
 }

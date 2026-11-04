@@ -33,7 +33,7 @@ public class DoneTraining {
 
 
 
-    public void execute(int agentId, int registrationId){
+    public void execute(int matricule, int registrationId){
         LocalDate today = LocalDate.now();
         RegistrationAgentInTraining registration = registrationRepo.findById(registrationId);
 
@@ -56,7 +56,7 @@ public class DoneTraining {
         registrationRepo.save(registration);
 
         List<RankCondition> rankCondtions = rankConditionRepo.getRankCondition();
-        Agent agent = agentRepo.findAgent(agentId);
+        Agent agent = agentRepo.findByMatricule(matricule);
         Rank newRank = rankCalculator.compileNewRank(agent, rankCondtions, today );
         if (newRank != agent.getRank()){
             agent.setRank(newRank);

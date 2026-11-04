@@ -13,8 +13,8 @@ public interface AgentRepository {
         throw new Error("Function not implemented update");
     }
 
-    public default Agent findAgent(Integer id){
-        throw new Error("Function not implemented findAgent");
+    public default Agent findByMatricule(int matricule){
+        throw new Error("Function not implemented findByMatricule");
     }
 
     public default boolean existsByMatricule(int matricule){
@@ -24,6 +24,7 @@ public interface AgentRepository {
     public default List<Agent> findAllAgent(){
             throw new Error("Function not implemented findAllAgent");
     }
+
 
     
 }

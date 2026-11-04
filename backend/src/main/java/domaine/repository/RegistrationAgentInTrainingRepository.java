@@ -13,11 +13,11 @@ public interface RegistrationAgentInTrainingRepository {
         throw new Error("Function not implemented update");
     }
 
-    public default List<RegistrationAgentInTraining> findByAgent(int agentId){
+    public default List<RegistrationAgentInTraining> findByAgent(int matricule){
         throw new Error("Function not implemented findByAgent");
     }  
     
-    public default List<RegistrationAgentInTraining> findByTraining(int trainingId){
+    public default List<RegistrationAgentInTraining> findByTraining(int trainingNumber){
         throw new Error("Function not implemented findByAgent");
     }  
     

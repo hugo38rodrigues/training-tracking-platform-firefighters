@@ -41,8 +41,8 @@ public class GetAllAgentTest {
     @DisplayName ("Retour la liste des agents présent en base")
     void liste_agents_en_base(){
 
-        AgentDataUsecase.insertAgentInRepo(AgentData.newAgent(), 1, fakeAgentRepository);
-        AgentDataUsecase.insertAgentInRepo(AgentData.newAgent(), 2, fakeAgentRepository);
+        AgentDataUsecase.insertAgentInRepo(AgentData.newAgent(), fakeAgentRepository);
+        AgentDataUsecase.insertAgentInRepo(AgentData.newAgent2(), fakeAgentRepository);
         List<DashboardAgentProfil> results = getAllAgent.execute(); 
         assertEquals(2, results.size());
     }

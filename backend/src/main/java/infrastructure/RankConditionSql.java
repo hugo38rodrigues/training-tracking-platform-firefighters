@@ -1,11 +1,10 @@
 package infrastructure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import domaine.entity.Rank;
 import domaine.entity.RankCondition;
@@ -13,53 +12,44 @@ import domaine.entity.Skill;
 import domaine.repository.RankConditionRepository;
 
 public class RankConditionSql implements RankConditionRepository {
-    private Connection conn;
-    
-    public RankConditionSql(Connection conn) {
-        this.conn = conn;
+
+    private final JdbcTemplate jdbc;
+
+    public RankConditionSql(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
     }
 
     @Override
     public List<RankCondition> getRankCondition() {
-        String sql = "Select * from Ranking_condition";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)){
-            ResultSet rs = pstmt.executeQuery();
-            List<RankCondition> rankConditions = new ArrayList<RankCondition>();
-            while(rs.next()){
-                RankCondition rankCondition = new RankCondition(
-                    Rank.valueOf(rs.getString("rank")),  
-                    Rank.valueOf(rs.getString("previous_rank")),
-                    rs.getInt("required_years"),
-                    new ArrayList<>()
-                );
-                rankCondition.setId(rs.getInt("id"));
-                rankCondition.setRequireSkills(findRequiredSkills(rankCondition.getId()));
-                rankConditions.add(rankCondition);
-            }
-            return rankConditions;
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la récupéreation des RankCondition",e);
-        }
+        return jdbc.query("SELECT * FROM ranking_condition", this::mapRankCondition);
+    }
 
+    // Transforme UNE ligne de ranking_condition en objet RankCondition
+    private RankCondition mapRankCondition(ResultSet rs, int rowNum) throws SQLException {
+        int id = rs.getInt("id");
+        String previousRank = rs.getString("previous_rank");
+
+        RankCondition rankCondition = new RankCondition(
+                Rank.valueOf(rs.getString("rank")),
+                previousRank == null ? null : Rank.valueOf(previousRank),
+                rs.getInt("required_years"),
+                findRequiredSkills(id));
+        rankCondition.setId(id);
+        return rankCondition;
     }
 
     private List<Skill> findRequiredSkills(int rankConditionId) {
-        String sql = "Select * from Skill join into on Ranking_condition_skill.skill_id =  Skill.id Where rank_condition_id = ?";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setInt(1, rankConditionId);
-            ResultSet rs = pstmt.executeQuery();
-            List<Skill> skills = new ArrayList<Skill>();
-            while(rs.next()){
-                Skill skill = new Skill(rs.getString("name")); 
-                skill.setId(rs.getInt("id"));
-                skills.add(skill);
-            }
-            return skills;
-        } catch (SQLException e) {
-             throw new RuntimeException("Erreur lors de la récupéreation des Skill pour RankCondition",e);
-        }
-
+        return jdbc.query("""
+                SELECT skill.id, skill.name
+                FROM skill
+                JOIN ranking_condition_skill ON ranking_condition_skill.skill_id = skill.id
+                WHERE ranking_condition_skill.rank_condition_id = ?
+                """,
+                (rs, rowNum) -> {
+                    Skill skill = new Skill(rs.getString("name"));
+                    skill.setId(rs.getInt("id"));
+                    return skill;
+                },
+                rankConditionId);
     }
-
 }

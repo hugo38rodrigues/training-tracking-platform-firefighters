@@ -4,8 +4,7 @@ import domaine.entity.Training;
 import usecase.mock.FakeTrainingRepository;
 
 public class TrainingDataUsecase {
-    public static void insertTrainingInRepo (Training training, int id, FakeTrainingRepository fakeTrainingRepo){
-        training.setId(id);
+    public static void insertTrainingInRepo (Training training, FakeTrainingRepository fakeTrainingRepo){
         fakeTrainingRepo.addTraining(training);
     }
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Agent {
-    private Integer id;
     private String lastName;
     private String firstName;
     private int matricule;
@@ -37,13 +36,6 @@ public class Agent {
     
     public String getFirstName() {
         return firstName;
-    }
-    
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getLastName() {
@@ -103,7 +95,7 @@ public class Agent {
 
     @Override
     public String toString() {
-        return "Agent [id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", matricule=" + matricule
+        return "Agent [lastName=" + lastName + ", firstName=" + firstName + ", matricule=" + matricule
                 + ", rank=" + rank + ", rankStartDate=" + rankStartDate + ", licenses=" + licenses + ", skills="
                 + skills + ", isActive=" + isActive + ", isDifferentiated=" + isDifferentiated + "]";
     }

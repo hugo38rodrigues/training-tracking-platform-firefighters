@@ -25,9 +25,9 @@ public class FakeRegistrationRepository implements RegistrationAgentInTrainingRe
     }
 
     @Override
-    public List<RegistrationAgentInTraining> findByAgent(int agentId) {
+    public List<RegistrationAgentInTraining> findByAgent(int matricule) {
         return storage.values().stream()
-                .filter(r -> r.getIdAgent() == agentId)
+                .filter(r -> r.getAgentMatricule() == matricule)
                 .toList();
     }
 

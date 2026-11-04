@@ -1,62 +1,35 @@
 package infrastructure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import domaine.entity.Skill;
 import domaine.repository.SkillRepository;
 
 public class SkillRepositorySql implements SkillRepository {
-    private final Connection conn;
 
-    public SkillRepositorySql(Connection conn) {
-        this.conn = conn;
-    }
+    private static final RowMapper<Skill> SKILL_MAPPER = (rs, rowNum) -> {
+        Skill skill = new Skill(rs.getString("name"));
+        skill.setId(rs.getInt("id"));
+        return skill;
+    };
 
-    @Override
-    public Skill findByName(String name) {
-        String sql = """
-                Select * FROM Skill WHERE name = ?;
-                """;
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                Skill skill = new Skill(
-                        rs.getString("name"));
-                skill.setId(rs.getInt("id"));
-                return skill;
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur récupération Skill: " + name, e);
-        }
+    private final JdbcTemplate jdbc;
+
+    public SkillRepositorySql(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
     }
 
     @Override
     public List<Skill> findAll() {
-        String sql = """
-                Select * FROM Skill;
-                """;
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery()){
-            
-            List<Skill> skills = new ArrayList<>();
-            
-            while (rs.next()) {
-                Skill skill = new Skill(
-                        rs.getString("name"));
-                skill.setId(rs.getInt("id"));
-                skills.add(skill);
-            }
-            return skills;
-            
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur récupération des Skills", e);
-        }
+        return jdbc.query("SELECT id, name FROM skill ORDER BY name", SKILL_MAPPER);
+    }
+
+    @Override
+    public Skill findByName(String name) {
+        return jdbc.query("SELECT id, name FROM skill WHERE name = ?", SKILL_MAPPER, name)
+                .stream().findFirst().orElse(null);
     }
 }

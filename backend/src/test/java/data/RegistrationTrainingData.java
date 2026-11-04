@@ -9,7 +9,8 @@ public class RegistrationTrainingData {
 
     
     public static RegistrationAgentInTraining registration(RegistrationStatus value){  
-        return new RegistrationAgentInTraining(LocalDate.now(),TrainingData.trainingCE().getEndDate(), value,1, 1);
+        return new RegistrationAgentInTraining(LocalDate.now(),TrainingData.trainingCE().getEndDate(), value,AgentData.agentWithSkillForCE().getMatricule(), 
+                TrainingData.trainingCE().getTrainingNumber());
     }
 
 }

@@ -1,4 +1,5 @@
 package usecase;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,28 +19,28 @@ public class AddTrainingTest {
     private FakeSkillRepository fakeSkillRepo;
     private AddTraining addTraining;
 
-    @BeforeEach 
-    void setUp(){
-        fakeTrainingRepo = new  FakeTrainingRepository();
-        fakeSkillRepo = new  FakeSkillRepository();
+    @BeforeEach
+    void setUp() {
+        fakeTrainingRepo = new FakeTrainingRepository();
+        fakeSkillRepo = new FakeSkillRepository();
         addTraining = new AddTraining(fakeTrainingRepo, fakeSkillRepo);
     }
 
-    @Test 
-    @DisplayName ("Lève une erreur si la formation existe déjà")
-    void formation_existante(){
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
+    @Test
+    @DisplayName("Lève une erreur si la formation existe déjà")
+    void formation_existante() {
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
         InvalidTrainingNumberExecption e = assertThrows(InvalidTrainingNumberExecption.class,
-            () -> addTraining.execute(TrainingData.trainingCE()));
-        assertEquals("Cette formation existe déjà: " + TrainingData.trainingCE().getFormationNumber(), e.getMessage());
+                () -> addTraining.execute(TrainingData.trainingCE()));
+        assertEquals("Cette formation existe déjà: " + TrainingData.trainingCE().getTrainingNumber(), e.getMessage());
 
     }
 
-    @Test 
-    @DisplayName ("Insert une formation dans la base de donnée")
-    void formation_non_existante(){
+    @Test
+    @DisplayName("Insert une formation dans la base de donnée")
+    void formation_non_existante() {
 
         addTraining.execute(TrainingData.trainingCE());
-        assertTrue(fakeTrainingRepo.findTrainingByFormationNumber(TrainingData.trainingCE().getFormationNumber()));
+        assertEquals(fakeTrainingRepo.findByTrainingNumber(TrainingData.trainingCE().getTrainingNumber()), TrainingData.trainingCE());
     }
 }

@@ -15,35 +15,36 @@ public class SetRegistrationAgentTraining {
     private TrainingRepository trainingRepo;
     private RegistrationAgentInTrainingRepository registrationRepo;
 
-    
-    public SetRegistrationAgentTraining(AgentRepository agentRepo, TrainingRepository trainingRepo, RegistrationAgentInTrainingRepository registrationRepo) {
+    public SetRegistrationAgentTraining(AgentRepository agentRepo, TrainingRepository trainingRepo,
+            RegistrationAgentInTrainingRepository registrationRepo) {
         this.agentRepo = agentRepo;
         this.trainingRepo = trainingRepo;
         this.registrationRepo = registrationRepo;
 
     }
 
-
-    public void execute(int agentId, int trainingId){
-        Agent agent = agentRepo.findAgent(agentId);
-        Training training = trainingRepo.findTrainingById(trainingId);
+    public void execute(int matricule, int formationNumber) {
+        Agent agent = agentRepo.findByMatricule(matricule);
+        Training training = trainingRepo.findByTrainingNumber(formationNumber);
         LocalDate today = LocalDate.now();
 
-        if(!agent.canRegistrationTraining(training)){
+        if (!agent.canRegistrationTraining(training)) {
             throw new RegistrationRefuseException("Cette agent n'a pas les compétences requise");
         }
 
-        if(training.getStartDate().isBefore(today)){
+        if (training.getStartDate().isBefore(today)) {
             throw new RegistrationRefuseException("Cette formation à déja commencé");
         }
 
-        RegistrationAgentInTraining registration = new RegistrationAgentInTraining(today,training.getEndDate(), RegistrationStatus.PENDING,agentId, trainingId);
-       
-        if (!registrationRepo.findByAgent(agentId).isEmpty()){
-            throw new RegistrationRefuseException("Cette agent est déjà inscrit à cette formation agent id: " + agentId +"formation id: " + trainingId);
+        RegistrationAgentInTraining registration = new RegistrationAgentInTraining(today, training.getEndDate(),
+                RegistrationStatus.PENDING, matricule, formationNumber);
+
+        if (!registrationRepo.findByAgent(matricule).isEmpty()) {
+            throw new RegistrationRefuseException("Cette agent est déjà inscrit à cette formation agent id: "
+                    + matricule + "formation id: " + formationNumber);
         }
-        
+
         registrationRepo.save(registration);
-        
+
     }
 }

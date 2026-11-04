@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/>
+    </parent>
 
     <groupId>training_tracking_platform_firefighters.example</groupId>
     <artifactId>src</artifactId>
@@ -11,33 +17,48 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-     <dependencies>
-        <!-- Driver Postgress -->
+        <!-- ④ DÉPENDANCES : pas de <version>, le parent les gère -->
+    <dependencies>
+        <!-- API REST (contrôleurs, JSON, serveur web intégré) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <!-- JDBC + pool de connexions (DataSource) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- Pilote PostgreSQL : nécessaire seulement à l'exécution -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.14</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
 
-        <!-- JUnit 5 (tests uniquement) -->
+        <!-- Tests : JUnit 5, AssertJ, Mockito, outils de test Spring -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         
     </dependencies>
 
-    <build>
+   <build>
         <plugins>
-            <!-- Exécute les tests JUnit lors du build -->
+            <!-- mvn spring-boot:run, et construction du .jar exécutable -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>api.Main</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

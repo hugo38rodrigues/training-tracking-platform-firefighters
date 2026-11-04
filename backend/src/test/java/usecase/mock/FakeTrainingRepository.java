@@ -1,29 +1,33 @@
 package usecase.mock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import domaine.entity.Training;
 import domaine.repository.TrainingRepository;
 
-public class FakeTrainingRepository implements TrainingRepository{
+public class FakeTrainingRepository implements TrainingRepository {
     private HashMap<Integer, Training> repo = new HashMap<>();
 
     @Override
     public void addTraining(Training training) {
-        repo.put(training.getId(),training);
+        repo.put(training.getTrainingNumber(), training);
     }
 
     @Override
-    public boolean findTrainingByFormationNumber(int formationNumber) {
-        return repo.values().stream().anyMatch(training -> training.getFormationNumber() == formationNumber);
+    public boolean existsByTrainingNumber(int trainingNumber) {
+        return repo.values().stream().anyMatch(training -> training.getTrainingNumber() == trainingNumber);
+    }
+
+    @Override 
+    public Training findByTrainingNumber(int trainingFormation){
+        return repo.get(trainingFormation);
     }
 
     @Override
-    public Training findTrainingById(int id) {
-        return repo.values().stream().filter(training -> training.getId().equals(id)).findFirst()
-                .orElse(null);
+    public List<Training> findAll() {
+        return new ArrayList<>(repo.values());
     }
-
-    
 
 }

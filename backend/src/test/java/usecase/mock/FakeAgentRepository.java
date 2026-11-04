@@ -13,7 +13,7 @@ public class FakeAgentRepository implements AgentRepository {
 
     @Override
     public void add(Agent agent) {
-        storage.put(agent.getId(), agent);
+        storage.put(agent.getMatricule(), agent);
     }
 
     @Override
@@ -23,8 +23,8 @@ public class FakeAgentRepository implements AgentRepository {
     }
 
     @Override
-    public Agent findAgent(Integer id) {
-        return storage.get(id);
+    public Agent findByMatricule(int matricule) {
+        return storage.get(matricule);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class FakeAgentRepository implements AgentRepository {
 
     @Override
     public void update(Agent agent) {
-        storage.put(agent.getId(), agent);
+        storage.put(agent.getMatricule(), agent);
     }
     
 

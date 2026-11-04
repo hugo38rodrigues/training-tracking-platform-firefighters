@@ -30,27 +30,30 @@ public class GetAvailableTrainingsTest {
     }
     
     @Test 
-    @DisplayName ("Doit retourner une list de formation pour un agent possédent les compétences requise")
+    @DisplayName ("Doit retourner une list de formation pour un agent possédent les compétences requises")
     void agent_with_require_skills(){
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
-        assertEquals(getAvailableTrainings.execute(1), TrainingData.trainingCE());
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
+        assertEquals(getAvailableTrainings.execute(matricule), TrainingData.trainingCE());
 
     }
    
     @Test 
     @DisplayName ("Doit retourner une list de formation sans la formation qui demande une compétences non possédée")
     void agent_without_require_skills(){
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithoutSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
-        assertNotEquals(getAvailableTrainings.execute(1), TrainingData.trainingCE());
+        int matricule = AgentData.agentWithoutSkillForCE().getMatricule();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithoutSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(),  fakeTrainingRepo);
+        assertNotEquals(getAvailableTrainings.execute(matricule), TrainingData.trainingCE());
     }
 
     @Test 
     @DisplayName ("Doit retourner une list de formation sans la formation qui est déja dépassée")
     void training_with_expired_date(){
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingWithStartDateInPast(), 1, fakeTrainingRepo);
-        assertNotEquals(getAvailableTrainings.execute(1), TrainingData.trainingWithStartDateInPast());
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingWithStartDateInPast(), fakeTrainingRepo);
+        assertNotEquals(getAvailableTrainings.execute(matricule), TrainingData.trainingWithStartDateInPast());
     }
 }

@@ -20,4 +20,5 @@ public class TrainingData {
                 LocalDate.now().minusDays(5), LocalDate.now().plusDays(5),
                 SkillData.skillsforCE(), new ArrayList<>(List.of(new Skill("CE INC"))), false);
     }
+
 }

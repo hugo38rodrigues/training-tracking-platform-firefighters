@@ -38,56 +38,65 @@ public class SetRegistrationTrainingTest {
     @Test
     @DisplayName  ("Un agent ne peux pas s'inscrire à une formation sans les compétences requises") 
      void agent_sans_competences_requises_est_refuse() {
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithoutSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        int formationNumber = TrainingData.trainingCE().getTrainingNumber();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithoutSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
 
         RegistrationRefuseException e = assertThrows(RegistrationRefuseException.class,
-                () -> setRegistrationAgentTraining.execute(1, 1));
+                () -> setRegistrationAgentTraining.execute(matricule,formationNumber));
         assertEquals("Cette agent n'a pas les compétences requise", e.getMessage());
     }
 
     @Test
     @DisplayName  ("Un agent ne peux pas s'inscrire à une formation qui a commencé") 
      void date_training_passe() {
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingWithStartDateInPast(), 1, fakeTrainingRepo);
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        int formationNumber = TrainingData.trainingCE().getTrainingNumber();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(),  fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingWithStartDateInPast(), fakeTrainingRepo);
 
         RegistrationRefuseException e = assertThrows(RegistrationRefuseException.class,
-                () -> setRegistrationAgentTraining.execute(1, 1));
+                () -> setRegistrationAgentTraining.execute(matricule,formationNumber));
         assertEquals("Cette formation à déja commencé", e.getMessage());
     }
 
     @Test
     @DisplayName  ("Un agent avec déjà la compétence ne peut pas s'incrire sur la formation") 
      void agent_avec_deja_la_competence_ne_peut_pas_inscrire() {
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
+        int matricule = AgentData.agentCE().getMatricule();
+        int formationNumber = TrainingData.trainingCE().getTrainingNumber();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
     
         RegistrationRefuseException e = assertThrows(RegistrationRefuseException.class,
-                () -> setRegistrationAgentTraining.execute(1, 1));
+                () -> setRegistrationAgentTraining.execute(matricule,formationNumber));
         assertEquals("Cette agent n'a pas les compétences requise", e.getMessage());
     }
     
     @Test
     @DisplayName  ("Un agent déjà inscrit ne peut pas se réinscrire à une formation") 
      void agent_deja_inscrit() {
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
-        
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        int formationNumber = TrainingData.trainingCE().getTrainingNumber();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
         RegistrationTrainingUsecase.insertRegistrationInRepo(RegistrationTrainingData.registration(RegistrationStatus.PENDING), 1, fakeRegistrationRepo);
         
         RegistrationRefuseException e = assertThrows(RegistrationRefuseException.class,
-                () -> setRegistrationAgentTraining.execute(1, 1));
-        assertEquals("Cette agent est déjà inscrit à cette formation agent id: " + 1 +  "formation id: " + 1, e.getMessage());
+                () -> setRegistrationAgentTraining.execute(matricule,formationNumber));
+        assertEquals("Cette agent est déjà inscrit à cette formation agent id: " + matricule +  "formation id: " + formationNumber, e.getMessage());
     }
    
 
     @Test
     @DisplayName ("Un agent peux s'inscrire si il a toutes les compétences") 
      void agent_inscrit() {
-        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), 1, fakeAgentRepo);
-        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), 1, fakeTrainingRepo);
-        setRegistrationAgentTraining.execute(1, 1);
+        int matricule = AgentData.agentWithSkillForCE().getMatricule();
+        int formationNumber = TrainingData.trainingCE().getTrainingNumber();
+        AgentDataUsecase.insertAgentInRepo(AgentData.agentWithSkillForCE(), fakeAgentRepo);
+        TrainingDataUsecase.insertTrainingInRepo(TrainingData.trainingCE(), fakeTrainingRepo);
+        setRegistrationAgentTraining.execute(matricule,formationNumber);
         RegistrationTrainingUsecase.insertRegistrationInRepo(RegistrationTrainingData.registration(RegistrationStatus.PENDING), 1, fakeRegistrationRepo);
         assertNotNull(fakeRegistrationRepo.findById(1));
     }

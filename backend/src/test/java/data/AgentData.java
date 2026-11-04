@@ -19,6 +19,11 @@ public class AgentData {
         return new Agent("Test", "Toto", 23660, Rank.SAPEUR_PREMIERE_CLASSE, LocalDate.parse("2022-03-26"),
                 licenses(License.PERMIS_C), SkillData.skillsCE());
     }
+    
+    public static Agent newAgent2() {
+        return new Agent("Test", "Toto", 23661, Rank.SAPEUR_PREMIERE_CLASSE, LocalDate.parse("2022-03-26"),
+                licenses(License.PERMIS_C), SkillData.skillsCE());
+    }
 
     public static Agent agentWithoutSkillForCE() {
         return new Agent("Test", "Toto", 23660, Rank.SAPEUR_PREMIERE_CLASSE, LocalDate.parse("2022-03-26"),
