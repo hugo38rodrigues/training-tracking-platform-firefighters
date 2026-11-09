@@ -57,7 +57,6 @@ type AgentCardProps = {
 }
 
 export function AgentCard({ agent, onViewProfile, onRegister, onArchive }: AgentCardProps) {
-  // Chaque carte a ses propres états : déplier une carte ne déplie pas les autres
   const [showAllSkills, setShowAllSkills] = useState(false)
   const [showAllRegistrations, setShowAllRegistrations] = useState(false)
 
