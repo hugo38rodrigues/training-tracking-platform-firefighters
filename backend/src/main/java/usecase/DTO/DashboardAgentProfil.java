@@ -11,7 +11,7 @@ import domaine.entity.Skill;
 public record DashboardAgentProfil (
     String lastName,
     String firstName,
-    int matricule,
+    String matricule,
     Rank rank,
     LocalDate rankStartDate,
     List<License> licenses,
@@ -26,7 +26,7 @@ public record DashboardAgentProfil (
             return new DashboardAgentProfil( 
                 agent.getLastName(), 
                 agent.getFirstName(), 
-                agent.getMatricule(), 
+                Integer.toString(agent.getMatricule()), 
                 agent.getRank(),
                 agent.getRankStartDate(),
                 agent.getLicenses(), 

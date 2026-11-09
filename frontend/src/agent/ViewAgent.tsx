@@ -1,38 +1,77 @@
-import { useEffect, useState } from "react"
-import { getAgents, type DashboardAgentProfil } from "../api/Request"
-import { AgentCard } from "./components/Card";
+// src/agent/ViewAgent.tsx — la grille des cartes, filtrée, avec le profil et l'inscription
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getAgents, type DashboardAgentProfil, type Rank } from '@/api/Request'
+import { AgentCard } from './components/Card'
+import { AgentProfileDialog } from './components/AgentProfileDialog'
+import { RegisterDialog } from './components/RegisterDialog'
 
+export type AgentStatusFilter = 'active' | 'archived' | 'all'
 
-export const ViewAgent = () => {
-	const [agents, setAgents] = useState<DashboardAgentProfil[]>([]);
-	const [error, setError] = useState<string | null>(null);
+type Props = {
+  rank: Rank | null
+  search: string
+  status: AgentStatusFilter
+}
 
-	useEffect(() => {
-		let ignore = false;
+// "Léa" → "lea" : la recherche ignore les accents et les majuscules
+function normalize(text: string) {
+  return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+}
 
-		const load = async () => {
-			try {
-				const data = await getAgents();
-				console.log(data)
-				if (!ignore) setAgents(data);
-			} catch (e) {
-				console.error(e);
-				if (!ignore) setError('Impossible de charger les agents.');
-			}
-		}
+export function ViewAgent({ rank, search, status }: Props) {
+  // TOUS les hooks avant le moindre return
+  const { data: agents = [], isPending, error } = useQuery({ queryKey: ['agents'], queryFn: getAgents })
+  const [profileAgent, setProfileAgent] = useState<DashboardAgentProfil | null>(null)
+  const [registeringAgent, setRegisteringAgent] = useState<DashboardAgentProfil | null>(null)
 
-		load();
-		return () => { ignore = true; };
-	}, []);
-	
-	return(
-		<div id="containe-agent" className="flex flex-wrap max-w-4xl max-h-screen ml-96 bg-amber-600">
-			<label>Coucou</label>
-			{error && <p className="text-red-700">{error}</p>}
-			{agents.map((agent) => 
-				
-				<AgentCard agent={agent} key={agent.matricule}/>
-			)}
-		</div>
-	)
+  if (isPending) return <p className="text-ink-muted">Chargement…</p>
+
+  if (error) {
+    return (
+      <p role="alert" className="rounded-[10px] bg-[#FBE4E2] px-4 py-3 font-semibold text-[#9B2219]">
+        Impossible de charger les agents : {error.message}
+      </p>
+    )
+  }
+
+  const query = normalize(search.trim())
+
+  const visibleAgents = agents.filter((agent) => {
+    const matchesRank = rank === null || agent.rank === rank
+    const matchesStatus =
+      status === 'all' || (status === 'active' ? agent.isActive : !agent.isActive)
+    const matchesSearch =
+      query === '' ||
+      normalize(agent.lastName).includes(query) ||
+      normalize(agent.firstName).includes(query) ||
+      String(agent.matricule).includes(query)
+
+    return matchesRank && matchesStatus && matchesSearch
+  })
+
+  return (
+    <>
+      {visibleAgents.length === 0 ? (
+        <p className="rounded-[10px] border border-dashed border-line-strong px-4 py-6 text-center text-ink-muted">
+          Aucun agent ne correspond à ces filtres
+        </p>
+      ) : (
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
+          {visibleAgents.map((agent) => (
+            <AgentCard
+              key={agent.matricule}
+              agent={agent}
+              onViewProfile={setProfileAgent}
+              onRegister={setRegisteringAgent}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Une seule boîte de chaque pour toute la page */}
+      <AgentProfileDialog agent={profileAgent} onClose={() => setProfileAgent(null)} />
+      <RegisterDialog agent={registeringAgent} onClose={() => setRegisteringAgent(null)} />
+    </>
+  )
 }

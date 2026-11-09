@@ -20,10 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"],
-  "paths": {    
-        "@/*": ["./src/*"]
+    "noFallthroughCasesInSwitch": true,
+
+    /* Alias : "@/..." désigne le dossier src */
+    "paths": {
+      "@/*": ["./src/*"]
     }
+  },
+  "include": ["src"]
 }
