@@ -1,14 +1,13 @@
 // src/agent/components/AgentProfileDialog.tsx — le profil complet d'un agent
-import type { DashboardAgentProfil } from '@/api/Request'
-import { formatDate, licenseLabels, rankLabels, seniority } from '@/display'
-import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
-import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
-} from '@/components/ui/dialog'
 
-import { RegistrationRow, Section, chip, pill } from './Card'
-import { RankInsignia } from './RankGenerator'
+import { cn } from "cn"
+import type { DashboardAgentProfil } from "../../api/Request"
+import { Badge } from "../../components/ui/badge"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../components/ui/dialog"
+import { formatDate, licenseLabels, rankLabels, seniority } from "../../display"
+import { RankInsignia } from "../../RankGenerator"
+import { chip, pill, RegistrationRow, Section } from "./Card"
+
 
 type Props = {
   agent: DashboardAgentProfil | null
