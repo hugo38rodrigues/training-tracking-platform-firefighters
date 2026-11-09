@@ -1,18 +1,20 @@
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Search, X } from 'lucide-react'
-import { getAgents, getRanks, type Rank } from '@/api/Request'
-import { rankLabels } from '@/display'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import {
-  Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList,
-} from '@/components/ui/combobox'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+
+
+
+
+import { useState } from 'react';
+import { Card } from '../components/ui/card';
 import { Header } from './components/Header'
 import { ViewAgent, type AgentStatusFilter } from './ViewAgent'
+import { getAgents, getRanks, type Rank } from '../api/Request';
+import { Label } from '../components/ui/label';
+import { Search, X } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '../components/ui/combobox';
+import { rankLabels } from '../display';
+import { cn } from 'cn';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '../components/ui/button';
 
 const statusOptions: { value: AgentStatusFilter; label: string }[] = [
   { value: 'active', label: 'Actifs' },
