@@ -1,7 +1,6 @@
 package usecase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import data.TrainingData;
-import domaine.entity.Training;
 import usecase.data.TrainingDataUsecase;
 import usecase.exceptions.InvalidTrainingNumberExecption;
 import usecase.mock.FakeSkillRepository;
@@ -38,14 +36,10 @@ public class AddTrainingTest {
     }
 
     @Test
-    @DisplayName("Ajoute une formation qui n'existe pas encore")
+    @DisplayName("Insert une formation dans la base de donnée")
     void formation_non_existante() {
-        Training training = TrainingData.trainingCE();
 
-        addTraining.execute(training);
-
-        Training saved = fakeTrainingRepo.findByTrainingNumber(training.getTrainingNumber());
-        assertNotNull(saved);
-        assertEquals(training.getName(), saved.getName());
+        addTraining.execute(TrainingData.trainingCE());
+        assertEquals(fakeTrainingRepo.findByTrainingNumber(TrainingData.trainingCE().getTrainingNumber()), TrainingData.trainingCE());
     }
 }
