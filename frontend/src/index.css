@@ -1,6 +1,60 @@
-@import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
-body{
-    width: 100%;
-    height: 100%;
+/* 1. Les couleurs de shadcn, adaptées à la maquette */
+:root {
+  --radius: 0.625rem;
+  --background: #F4F2EE;          /* fond de page beige */
+  --foreground: #1B1F24;
+  --card: #FFFFFF;
+  --card-foreground: #1B1F24;
+  --popover: #FFFFFF;             /* listes déroulantes, Combobox */
+  --popover-foreground: #1B1F24;
+  --primary: #1B2433;             /* bleu nuit */
+  --primary-foreground: #FFFFFF;
+  --secondary: #EEF0F3;
+  --secondary-foreground: #1B2433;
+  --muted: #F7F5F1;
+  --muted-foreground: #5B6270;
+  --accent: #EEF0F3;              /* survol d'un élément de liste */
+  --accent-foreground: #1B2433;
+  --destructive: #B3261E;
+  --border: #E2DED6;
+  --input: #CFCAC0;
+  --ring: #1B2433;
+}
+
+/* 2. Les classes Tailwind qui lisent ces couleurs : bg-background, bg-popover, border-border… */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* 3. Les réglages par défaut de la page */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
 }
