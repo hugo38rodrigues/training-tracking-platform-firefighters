@@ -1,11 +1,11 @@
 
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 
-import { AgentCard } from './components/Card'
-import { AgentProfileDialog } from './components/AgentProfileDialog'
-import { RegisterDialog } from './components/RegisterDialog'
 import { getAgents, type DashboardAgentProfil, type Rank } from '../api/Request'
+import { AgentCard } from './components/Card'
+import { AgentProfileDialog } from './components/dialog/AgentProfileDialog'
+import { RegisterDialog } from './components/dialog/RegisterDialog'
 
 export type AgentStatusFilter = 'active' | 'archived' | 'all'
 
@@ -15,7 +15,6 @@ type Props = {
   status: AgentStatusFilter
 }
 
-// "Léa" → "lea" : la recherche ignore les accents et les majuscules
 function normalize(text: string) {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 }

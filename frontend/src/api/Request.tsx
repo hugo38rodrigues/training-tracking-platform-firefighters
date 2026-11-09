@@ -85,3 +85,16 @@ export const registerAgentToTraining = (body: { agentMatricule: number; formatio
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   })
+	export type Skill = { name: string }
+
+// Ce qu'on envoie pour créer un agent : le profil, sans ce que le serveur calcule lui-même
+export type NewAgent = Omit<DashboardAgentProfil, 'isActive' | 'registration'>
+
+export const getSkills = () => request<Skill[]>('/api/skills')
+
+export const createAgent = (agent: NewAgent) =>
+  request<void>('/api/agents', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(agent),
+  })

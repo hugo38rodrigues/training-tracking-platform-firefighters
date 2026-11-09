@@ -1,21 +1,27 @@
+/* 1. Les imports, TOUJOURS en premier, dans cet ordre */
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
 @custom-variant dark (&:is(.dark *));
 
-/* 1. Les couleurs de shadcn, adaptées à la maquette */
+/* 2. Les couleurs de shadcn, adaptées à la maquette */
 :root {
   --radius: 0.625rem;
-  --background: #F4F2EE;          /* fond de page beige */
+  --background: #F4F2EE;
   --foreground: #1B1F24;
   --card: #FFFFFF;
   --card-foreground: #1B1F24;
-  --popover: #FFFFFF;             /* listes déroulantes, Combobox */
+  --popover: #FFFFFF;
   --popover-foreground: #1B1F24;
-  --primary: #1B2433;             /* bleu nuit */
+  --primary: #1B2433;
   --primary-foreground: #FFFFFF;
   --secondary: #EEF0F3;
   --secondary-foreground: #1B2433;
   --muted: #F7F5F1;
   --muted-foreground: #5B6270;
-  --accent: #EEF0F3;              /* survol d'un élément de liste */
+  --accent: #EEF0F3;
   --accent-foreground: #1B2433;
   --destructive: #B3261E;
   --border: #E2DED6;
@@ -23,7 +29,7 @@
   --ring: #1B2433;
 }
 
-/* 2. Les classes Tailwind qui lisent ces couleurs : bg-background, bg-popover, border-border… */
+/* 3. Les classes Tailwind de shadcn : bg-background, bg-popover, border-border… */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -49,12 +55,33 @@
   --color-ring: var(--ring);
 }
 
-/* 3. Les réglages par défaut de la page */
+/* 4. Les couleurs et polices de la maquette : bg-navy, text-ink-muted, font-title… */
+@theme {
+  --font-sans: "Barlow", system-ui, sans-serif;
+  --font-title: "Barlow Condensed", "Barlow", sans-serif;
+
+  --color-page: #F4F2EE;
+  --color-page-soft: #F7F5F1;
+  --color-navy: #1B2433;
+  --color-navy-light: #2A3548;
+  --color-navy-hover: #232E40;
+  --color-brand-red: #B3261E;
+  --color-brand-red-dark: #8C1D17;
+  --color-ink: #1B1F24;
+  --color-ink-soft: #3A404A;
+  --color-ink-muted: #5B6270;
+  --color-line: #E2DED6;
+  --color-line-strong: #CFCAC0;
+  --color-chip: #EEF0F3;
+}
+
+/* 5. Réglages par défaut de la page */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }

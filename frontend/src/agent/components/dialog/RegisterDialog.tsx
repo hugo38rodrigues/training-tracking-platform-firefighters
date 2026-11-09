@@ -1,14 +1,10 @@
-// src/agent/components/RegisterDialog.tsx — inscrire un agent à une formation
-import { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  getAvailableTrainings, registerAgentToTraining, type DashboardAgentProfil,
-} from '@/api/Request'
-import { formatDate } from '@/display'
-import { Button } from '@/components/ui/button'
-import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
-} from '@/components/ui/dialog'
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { getAvailableTrainings, registerAgentToTraining, type DashboardAgentProfil } from "../../../api/Request"
+import { useState } from "react"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../../components/ui/dialog"
+import { formatDate } from "../../../display"
+import { Button } from "../../../components/ui/button"
+
 
 type Props = {
   agent: DashboardAgentProfil | null
@@ -92,7 +88,6 @@ export function RegisterDialog({ agent, onClose }: Props) {
               </fieldset>
             )}
 
-            {/* Message renvoyé par l'API (« Cette formation a déjà commencé »…) */}
             {registration.error && (
               <p role="alert" className="rounded-[10px] bg-[#FBE4E2] px-3 py-2 text-sm font-semibold text-[#9B2219]">
                 {registration.error.message}

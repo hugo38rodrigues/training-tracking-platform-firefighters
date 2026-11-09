@@ -3,11 +3,11 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import './index.css'
+
 import { Home } from './Home.tsx'
 import { Dashboard } from './agent/Dashboard.tsx'
 import { Trainings } from './training/Training.tsx'
-
+import './index.css'
 
 const queryClient = new QueryClient()
 
