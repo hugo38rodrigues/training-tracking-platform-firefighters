@@ -20,17 +20,9 @@ public class AgentController {
         this.getAllAgent = getAllAgent;
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public List<DashboardAgentProfil> findAll() {
         return getAllAgent.execute();
-    }
-
-    @GetMapping("health-check")
-    public String getMethodName() {
-        return "Hello world";
-    }
-    
-
-  
+    } 
     
 }
