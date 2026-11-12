@@ -26,7 +26,7 @@ public class Agent {
     }
 
     public boolean canRegistrationTraining(Training training){
-        boolean hasSkill = this.getSkills().equals(training.getSkillsNeeded());
+        boolean hasSkill = this.getSkills().containsAll(training.getSkillsNeeded());
         return hasSkill;
     }
 
