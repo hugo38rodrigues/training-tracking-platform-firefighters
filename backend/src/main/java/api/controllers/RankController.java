@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/ranks")
 public class RankController {
 
-    @GetMapping("/")
+    @GetMapping
     public List<Rank> findAll(){
         return List.of(Rank.values());
     }

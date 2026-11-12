@@ -32,7 +32,7 @@ public class GetAvailableTrainings {
         if (agent == null) {
             throw new InvalideAgentsException("Agent introuvable");
         }
-
+        
         LocalDate today = LocalDate.now();
         List<TrainingOption> trainings = trainingRepo.findAll().stream()
                 .filter(training -> !training.getStartDate().isBefore(today))
@@ -40,7 +40,6 @@ public class GetAvailableTrainings {
                 .sorted((a, b) -> a.getStartDate().compareTo(b.getStartDate()))
                 .map(TrainingOption::from)
                 .toList();
-
         return trainings.stream().filter(training -> registrationAgentInTrainingRepo.findByAgent(matricule).isEmpty()).toList();
 
     }

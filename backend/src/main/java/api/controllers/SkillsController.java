@@ -20,7 +20,7 @@ public class SkillsController {
         this.getSkills = getSkills;
     }
 
-    @GetMapping("/")    
+    @GetMapping   
     public List<Skill> findAll(){
         return getSkills.execute();
     }

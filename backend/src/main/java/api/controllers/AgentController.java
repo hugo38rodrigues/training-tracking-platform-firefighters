@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.controllers.DTO.CreateAgentRequest;
-import domaine.entity.Agent;
 import usecase.DTO.DashboardAgentProfil;
 import usecase.AddAgent;
 import usecase.GetAllAgent;
@@ -30,12 +29,12 @@ public class AgentController {
         this.addAgent = addAgent;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<DashboardAgentProfil> findAll() {
         return getAllAgent.execute();
     }
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CreateAgentRequest request) {
         addAgent.execute(request.toAgent());

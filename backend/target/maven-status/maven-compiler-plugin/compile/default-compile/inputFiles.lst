@@ -4,6 +4,7 @@
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/DTO/CreateAgentRequest.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/RankController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/SkillsController.java
+/home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/TrainingController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/domaine/entity/Agent.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/domaine/entity/License.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/domaine/entity/Rank.java
@@ -30,6 +31,7 @@
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/DTO/DashboardAgentProfil.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/DTO/TrainingOption.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/GetAllAgent.java
+/home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/GetAllTraining.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/GetAvailableTrainings.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/GetSkills.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/usecase/exceptions/InvalidMatriculesException.java

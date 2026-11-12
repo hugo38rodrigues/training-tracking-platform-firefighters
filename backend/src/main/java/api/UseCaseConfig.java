@@ -20,6 +20,7 @@ import infrastructure.SkillRepositorySql;
 import infrastructure.TrainingRepositorySql;
 import usecase.AddAgent;
 import usecase.GetAllAgent;
+import usecase.GetAllTraining;
 import usecase.GetSkills;
 import usecase.registration.CancelTraining;
 import usecase.registration.DoneTraining;
@@ -101,5 +102,8 @@ public class UseCaseConfig {
     public DoneTraining doneTraining(RegistrationAgentInTrainingRepository registrations, AgentRepository agents,
             RankConditionRepository rankConditions) {
         return new DoneTraining(registrations, agents, rankConditions, new RankCalculator());
+    }
+    @Bean GetAllTraining getAllTraining(TrainingRepository trainingRepository){
+        return new GetAllTraining(trainingRepository);
     }
 }
