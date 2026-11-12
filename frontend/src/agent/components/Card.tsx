@@ -49,7 +49,7 @@ export function RegistrationRow({ registration }: { registration: DashboardRegis
 
 /* ---------- La carte ---------- */
 
-type AgentCardProps = {
+interface AgentCardProps {
   agent: DashboardAgentProfil
   onViewProfile?: (agent: DashboardAgentProfil) => void
   onRegister?: (agent: DashboardAgentProfil) => void

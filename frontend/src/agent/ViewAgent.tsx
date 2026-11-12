@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useState, type FC } from 'react'
 
 import { getAgents, type DashboardAgentProfil, type Rank } from '../api/Request'
 import { AgentCard } from './components/Card'
@@ -9,7 +9,7 @@ import { RegisterDialog } from './components/dialog/RegisterDialog'
 
 export type AgentStatusFilter = 'active' | 'archived' | 'all'
 
-type Props = {
+interface Props {
   rank: Rank | null
   search: string
   status: AgentStatusFilter
@@ -19,7 +19,7 @@ function normalize(text: string) {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 }
 
-export function ViewAgent({ rank, search, status }: Props) {
+export const ViewAgent: FC<Props> = ({ rank, search, status }) => {
   // TOUS les hooks avant le moindre return
   const { data: agents = [], isPending, error } = useQuery({ queryKey: ['agents'], queryFn: getAgents })
   const [profileAgent, setProfileAgent] = useState<DashboardAgentProfil | null>(null)

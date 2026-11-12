@@ -1,5 +1,5 @@
 // src/components/app/RankInsignia.tsx — l'insigne de grade (mêmes tracés que la version JavaFX)
-import type { Rank } from '@/api/Request'
+import type { Rank } from './api/Request'
 
 // Le fond : un carré aux coins arrondis
 const PATCH = 'M0 3 Q0 0 3 0 H21 Q24 0 24 3 V21 Q24 24 21 24 H3 Q0 24 0 21 Z'
@@ -26,8 +26,7 @@ const RED = '#E53935'
 const SILVER = '#DCE0E6'
 const GOLD = '#E3A92B'
 
-// Une couche = un tracé + sa couleur. Un grade = une liste de couches dessinées l'une sur l'autre.
-type Layer = { d: string; fill: string }
+interface Layer { d: string; fill: string }
 
 // Record<Rank, …> oblige à traiter chaque grade : en oublier un = erreur de compilation
 const insignia: Record<Rank, Layer[]> = {

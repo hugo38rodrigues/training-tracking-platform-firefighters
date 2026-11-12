@@ -6,7 +6,7 @@ import { formatDate } from "../../../display"
 import { Button } from "../../../components/ui/button"
 
 
-type Props = {
+interface Props  {
   agent: DashboardAgentProfil | null
   onClose: () => void
 }
@@ -25,9 +25,9 @@ export function RegisterDialog({ agent, onClose }: Props) {
 
   const registration = useMutation({
     mutationFn: registerAgentToTraining,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
-      queryClient.invalidateQueries({ queryKey: ['available-trainings'] })
+    onSuccess: async() => {
+      await queryClient.invalidateQueries({ queryKey: ['agents'] })
+      await queryClient.invalidateQueries({ queryKey: ['available-trainings'] })
       handleClose()
     },
   })
