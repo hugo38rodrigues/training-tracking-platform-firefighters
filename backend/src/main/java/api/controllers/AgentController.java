@@ -30,6 +30,7 @@ public class AgentController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<DashboardAgentProfil> findAll() {
         return getAllAgent.execute();
     }

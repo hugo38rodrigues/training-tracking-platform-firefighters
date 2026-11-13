@@ -103,6 +103,6 @@ export const getAvailableTrainings = (matricule: number) =>
 export const createAgent = (agent: NewAgent) => postJson<void>('/api/agents', agent)
 
 export const registerAgentToTraining = (body: {
-	agentMatricule: number
-	formationNumber: number
+	matricule: number
+	trainingNumber: number
 }) => postJson<void>('/api/registrations', body)

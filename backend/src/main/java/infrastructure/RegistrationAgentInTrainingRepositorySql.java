@@ -23,7 +23,7 @@ public class RegistrationAgentInTrainingRepositorySql implements RegistrationAge
     public void save(RegistrationAgentInTraining registration) {
         Integer id = jdbc.queryForObject("""
             INSERT INTO registration_agent_in_training
-            (registration_start, registration_end, status, agent_matricule, training_formation_number)
+            (registration_start, registration_end, status, agent_matricule, training_id)
             VALUES (?, ?, ?, ?, ?)
             RETURNING id """,
                 Integer.class,

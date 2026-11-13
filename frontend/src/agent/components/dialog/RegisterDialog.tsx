@@ -122,13 +122,13 @@ export const RegisterDialog: FC<Props> = ({ agent, onClose }) => {
 								Annuler
 							</Button>
 							<Button
-								className="h-11 bg-background hover:bg-navy-light"
+								className="h-11 bg-background hover:bg-navy-light text-white"
 								disabled={trainingNumber === null || registration.isPending}
 								onClick={() => {
 									if (trainingNumber === null) return
 									registration.mutate({
-										agentMatricule: agent.matricule,
-										formationNumber: trainingNumber,
+										matricule: agent.matricule,
+										trainingNumber: trainingNumber,
 									})
 								}}
 							>

@@ -23,9 +23,9 @@ public class SetRegistrationAgentTraining {
 
     }
 
-    public void execute(int matricule, int formationNumber) {
+    public void execute(int matricule, int trainingNumber) {
         Agent agent = agentRepo.findByMatricule(matricule);
-        Training training = trainingRepo.findByTrainingNumber(formationNumber);
+        Training training = trainingRepo.findByTrainingNumber(trainingNumber);
         LocalDate today = LocalDate.now();
 
         if (!agent.canRegistrationTraining(training)) {
@@ -33,15 +33,15 @@ public class SetRegistrationAgentTraining {
         }
 
         if (training.getStartDate().isBefore(today)) {
-            throw new RegistrationRefuseException("Cette formation à déja commencé");
+            throw new RegistrationRefuseException("Cette foramtion à déja commencé");
         }
 
         RegistrationAgentInTraining registration = new RegistrationAgentInTraining(today, training.getEndDate(),
-                RegistrationStatus.PENDING, matricule, formationNumber);
+                RegistrationStatus.PENDING, matricule, trainingNumber);
 
         if (!registrationRepo.findByAgent(matricule).isEmpty()) {
             throw new RegistrationRefuseException("Cette agent est déjà inscrit à cette formation agent id: "
-                    + matricule + "formation id: " + formationNumber);
+                    + matricule + "training id: " + trainingNumber);
         }
 
         registrationRepo.save(registration);

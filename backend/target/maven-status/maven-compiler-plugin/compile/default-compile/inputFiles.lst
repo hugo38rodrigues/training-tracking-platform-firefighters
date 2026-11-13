@@ -2,7 +2,9 @@
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/UseCaseConfig.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/AgentController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/DTO/CreateAgentRequest.java
+/home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/DTO/SetRegistationRequest.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/RankController.java
+/home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/RegistrationController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/SkillsController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/api/controllers/TrainingController.java
 /home/xwdrblue/project/training-tracking-platform-firefighters/backend/src/main/java/domaine/entity/Agent.java

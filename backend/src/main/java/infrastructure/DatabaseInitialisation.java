@@ -112,7 +112,7 @@ public class DatabaseInitialisation {
                     status                    TEXT    NOT NULL,
                     agent_matricule           INTEGER NOT NULL
                         REFERENCES agent(matricule) ON UPDATE CASCADE ON DELETE CASCADE,
-                    training_formation_number INTEGER NOT NULL
+                    training_id INTEGER NOT NULL
                         REFERENCES training(training_number) ON UPDATE CASCADE
                 )""");
     }
